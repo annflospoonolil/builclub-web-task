@@ -20,6 +20,11 @@
   --text-5xl: 4.210rem;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
