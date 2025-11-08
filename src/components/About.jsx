@@ -110,7 +110,7 @@ export default function About() {
         </div>
       </motion.div>
 
-      {/* Floating icons (decorative) */}
+      {/* Floating icons */}
       <motion.div
         className="absolute -bottom-10 right-4 sm:right-10 text-secondary/30 text-[4rem] sm:text-[5rem] md:text-[6rem] select-none"
         animate={{ y: [0, -10, 0] }}
