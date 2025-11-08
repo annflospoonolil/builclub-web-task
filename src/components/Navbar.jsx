@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BuildClubLogo from "../assets/logo.png";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const navLinks = ["Home", "About", "Projects", "Join"];
 
+  // Detect scroll position for subtle background/shadow change
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      {/* Main Navbar */}
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="bg-primary text-background flex justify-between items-center px-6 sm:px-10 py-4 shadow-md sticky top-0 z-50"
+      {/* Navbar */}
+      <header
+        className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-primary/95 shadow-md backdrop-blur-md"
+            : "bg-primary shadow-none"
+        } text-background flex justify-between items-center px-6 sm:px-10 py-4`}
       >
         {/* Logo */}
         <a
@@ -44,7 +55,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Toggle */}
         <button
           className="md:hidden text-3xl focus:outline-none text-secondary"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -52,18 +63,18 @@ export default function Navbar() {
         >
           {menuOpen ? "✕" : "☰"}
         </button>
-      </motion.header>
+      </header>
 
       {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
             key="mobile-nav"
-            initial={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-primary text-background flex flex-col items-center py-6 space-y-4 border-t border-secondary/20 sticky top-[64px] z-40 shadow-lg"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden bg-primary text-background flex flex-col items-center py-6 space-y-4 border-t border-secondary/20 mt-[64px] z-40 shadow-lg fixed w-full"
           >
             {navLinks.map((link) => (
               <a
